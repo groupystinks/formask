@@ -2,7 +2,7 @@
   "compilerOptions": {
     "outDir": "build/dist",
     "module": "esnext",
-    "target": "es5",
+    "target": "ES5",
     "lib": ["es6", "dom"],
     "sourceMap": true,
     "allowJs": true,
@@ -19,7 +19,7 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "formput": ["./src/dist/commonjs"]
+      "formask": ["./src/dist/commonjs"]
     }
   },
   "exclude": [
@@ -29,6 +29,6 @@
     "acceptance-tests",
     "webpack",
     "jest",
-    "src/setupTests.ts"
+    "config",
   ]
 }

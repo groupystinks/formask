@@ -1,0 +1,70 @@
+input,
+input[type="text"] {
+  padding: 0.5em 0.6em;
+  display: inline-block;
+  font-size: 12px;
+  line-height: 1.6;
+  border: 1px solid #e0e0e0;
+  border-radius: 2px;
+  background-color: #f9f9f9;
+  vertical-align: middle;
+  box-sizing: border-box;
+  appearance: none;
+  transition: 0.2s;
+}
+
+input:focus,
+input[type="text"]:focus {
+  outline: 0;
+  border-color: #01b1f0;
+  box-shadow: 0 0 3px #01b1f0;
+  background-color: #FFF;
+  color: #555;
+}
+
+label {
+  margin: 3px;
+  font-size: 11px;
+}
+
+small {
+  display: block;
+  font-size: 11px;
+  line-height: 1.42857;
+  height: 15px;
+  color: #666;
+}
+
+small.invalid {
+  color: #ff4e3f;
+}
+
+.flex-hori-spaced {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.fields-area {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.fields-area .field {
+  flex: 1 0.5 auto;
+}
+
+.field {
+  margin: 5px;
+}
+
+.field-item {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.field-item label {
+  text-align: left;
+}

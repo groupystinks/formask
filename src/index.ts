@@ -1,1 +1,3 @@
-export { default as Hello } from './Hello/Hello'
+import Formask from './formask';
+
+export default Formask;

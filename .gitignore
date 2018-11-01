@@ -3,6 +3,7 @@ node_modules
 
 # compiled code
 dist
+web/src/dist
 
 # misc
 .DS_Store

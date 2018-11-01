@@ -1,31 +1,89 @@
 {
-  "name": "retype-module-boilerplate",
-  "version": "0.1.1",
-  "description": "React component module with typescript support",
-  "main": "dist/commnonjs/index.js",
-  "typings": "dist/commnonjs/index.d.ts",
+  "name": "formask",
+  "version": "0.0.1",
+  "description": "Formask is minimal form management abstract implemented by React",
+  "main": "dist/index.js",
+  "typings": "dist/formask.d.ts",
   "author": "Lai Chia Sheng <jason0911520@gmail.com> (http://groupystinks.com/)",
   "license": "MIT",
+  "babel": {
+    "presets": [
+      "react-app"
+    ]
+  },
   "dependencies": {
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "kya": "0.1.2",
+    "prop-types": "15.6.0",
+    "warning": "3.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=15",
+    "react-dom": ">=15"
   },
   "devDependencies": {
-    "@types/jest": "^20.0.8",
+    "@types/jest": "23.1.3",
     "@types/node": "^8.0.28",
+    "@types/prop-types": "15.5.2",
     "@types/react": "^16.0.5",
     "@types/react-dom": "^15.5.4",
+    "@types/warning": "3.0.0",
+    "babel-core": "6.26.3",
+    "babel-eslint": "9.0.0",
+    "babel-jest": "23.6.0",
+    "babel-preset-react-app": "^3.0.1",
+    "eslint": "5.7.0",
+    "eslint-config-react-app": "3.0.4",
+    "eslint-plugin-flowtype": "2.50.3",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-jsx-a11y": "6.1.2",
+    "eslint-plugin-react": "7.11.1",
+    "jest": "23.5.0",
+    "jest-dom": "1.12.1",
+    "js-beautify": "1.8.8",
+    "react": "16.4.2",
     "react-dev-utils": "^3.0.1",
+    "react-dom": "16.4.2",
     "react-error-overlay": "^1.0.8",
-    "ts-jest": "^20.0.7",
+    "react-select": "^2.0.0",
+    "react-testing-library": "5.1.0",
+    "regenerator-runtime": "0.12.1",
+    "rimraf": "2.6.2",
+    "ts-jest": "23.10.4",
     "ts-loader": "^2.2.1",
     "tslint": "^5.2.0",
     "tslint-loader": "^3.5.3",
     "tslint-react": "^3.0.0",
-    "typescript": "~2.4.0"
+    "typescript": "3.0.1"
   },
   "scripts": {
-    "ts": "tsc --watch",
-    "build": "tsc --outDir dist"
+    "build": "tsc --outDir dist",
+    "clean": "rimraf dist",
+    "lint": "tslint 'src/**/*.ts{,x}'",
+    "prepublish": "npm run clean && npm run test",
+    "test": "npm run build && node --trace-warnings node_modules/.bin/jest --no-cache",
+    "test:watch": "npm run build && node --trace-warnings node_modules/.bin/jest --no-cache --watch",
+    "ts": "tsc --watch"
+  },
+  "jest": {
+    "rootDir": "./",
+    "roots": [
+      "<rootDir>/src/"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest",
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "modulePathIgnorePatterns": [
+      "<rootDir>/web"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
   }
 }
