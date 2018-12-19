@@ -1,0 +1,27 @@
+.section {
+  background-color: #fafafa;
+  margin: 20px;
+  padding: 20px;
+  box-shadow: 0 0 4px #d9d9d9;
+  box-sizing: border-box;
+}
+
+.section a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.section .hashtag {
+  color: transparent;
+}
+
+.section-header:hover .hashtag {
+  color: #4a5fa4;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 42px;
+  line-height: 1.8;
+  font-weight: 100;
+}

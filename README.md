@@ -102,7 +102,7 @@ For more real use cases, you probably want to see [Example](#Example).
 #### setIsSubmitting: (isSubmitting: boolean) => void
 Modify isSubmitting status.
 
-#### reset: (options?: { type?: string, fields?: Array<string> }) => void
+#### reset: (options?: { type?: 'initial' | 'clean', fields?: Array<string> }) => void
 **passing nothing**
 If no parameters is passed in, Formask reset all fields to clean state.
 

@@ -7,12 +7,13 @@ import {
 } from './helpers/types';
 import { getErrorProxy } from './helpers/proxy';
 import { objectDeepEqual } from './helpers/equal';
+import { resetTypeEnum, ResetType } from './helpers/enum';
 import kya from 'kya';
 
 function noop () { return; }
 
 export interface FormaskAPI {
-  defaultValues?: FormValues;
+  defaultValues: FormValues | {};
   defaultErrors?: ErrorMessages;
   defaultTouches?: FormTouches;
   render?: (props: FormaskProps) => React.ReactElement<{}>;
@@ -62,7 +63,10 @@ export interface FieldTypes {
 export interface HookProps {
   // User passed in props could be any
   // tslint:disable-next-line:no-any
-  [key: string]: any;
+  [x: string]: any;
+  key: string;
+  // tslint:disable-next-line:no-any
+  defaultValue: any;
   formaskfield: string;
   // Value could be any
   // tslint:disable-next-line:no-any
@@ -78,9 +82,9 @@ export interface ValidateOptions {
 
 export interface FormaskMethods {
   getFieldsValue: () => FormValues;
-  hook: (id: string, options: { changeHandlerName: string, blurHandlerName: string }) =>
+  hook: (id: string, options: { changeHandlerName?: string, blurHandlerName?: string, controlled?: boolean }) =>
     (ele: React.ReactElement<{}>) => React.ReactElement<HookProps>;
-  reset: (options?: { type?: string, fields?: Array<string> }) => void;
+  reset: (options?: { type?: 'initial' | 'clean', fields?: Array<string> }) => void;
   setIsSubmitting: (isSubmitting: boolean) => void;
   setTouches: (touches: FormTouches) => void;
   validate: (fields?: Array<string>, options?: ValidateOptions) => void;
@@ -102,6 +106,7 @@ export interface FormaskHandlers {
 }
 
 export type FormaskProps = InternalState & FormaskHandlers & FormaskMethods;
+type UncontrolledIndex = number;
 
 export default class Formask extends React.Component<FormaskAPI, InternalState> {
   static propTypes = {
@@ -117,11 +122,15 @@ export default class Formask extends React.Component<FormaskAPI, InternalState> 
   static defaultProps = {
     schema: {},
     defaultErrors: {},
+    defaultValues: {},
     options: {
       validateOnBlur: true,
       validateOnChange: true
     },
   };
+
+  uncontrolledIndex !: UncontrolledIndex;
+  resetType !: ResetType;
 
   constructor(props: FormaskAPI) {
     super(props);
@@ -143,6 +152,9 @@ export default class Formask extends React.Component<FormaskAPI, InternalState> 
     };
 
     const errors = getErrorProxy(errorsObj);
+
+    this.uncontrolledIndex = 0;
+    this.resetType = resetTypeEnum.noreset;
 
     this.state = {
       values,
@@ -192,21 +204,23 @@ export default class Formask extends React.Component<FormaskAPI, InternalState> 
 
   hook = (
     id: string,
-    options = {
-      changeHandlerName: 'onChange',
-      blurHandlerName: 'onBlur'
-    }
+    options: { changeHandlerName?: string, blurHandlerName?: string, controlled?: boolean } = {},
   ) => (Widget: React.ReactElement<HookProps>) => {
+    const {
+      changeHandlerName = 'onChange',
+      blurHandlerName = 'onBlur',
+      controlled = true,
+    } = options;
     // we don't know what unknown is.
     // tslint:disable-next-line:no-any
     const hookChangeHandler = (unknown: any) => {
       // calling props.onChange.
       if (
-        Widget.props[options.changeHandlerName] &&
-        typeof Widget.props[options.changeHandlerName] === 'function'
+        Widget.props[changeHandlerName] &&
+        typeof Widget.props[changeHandlerName] === 'function'
       ) {
-        if (typeof Widget.props[options.changeHandlerName] === 'function') {
-          Widget.props[options.changeHandlerName](unknown);
+        if (typeof Widget.props[changeHandlerName] === 'function') {
+          Widget.props[changeHandlerName](unknown);
         }
       }
 
@@ -224,14 +238,66 @@ export default class Formask extends React.Component<FormaskAPI, InternalState> 
     const hookBlurHandler = (unknown: {}) => {
       // calling props.onBlur directly
       if (
-        Widget.props[options.blurHandlerName] &&
-        typeof Widget.props[options.blurHandlerName] === 'function'
+        Widget.props[blurHandlerName] &&
+        typeof Widget.props[blurHandlerName] === 'function'
       ) {
-        Widget.props[options.blurHandlerName](unknown);
+        Widget.props[blurHandlerName](unknown);
       }
 
       this.blurHandler(id);
     };
+
+    // If form is reseting and component is uncontrolled,
+    // RESET KEY
+    if (!controlled) {
+      let HookWidget = React.cloneElement(
+        Widget,
+        {
+          ...Widget.props,
+          key: `${id}-${this.uncontrolledIndex}`,
+          formaskfield: id,
+          defaultValue: this.props.defaultValues[id] || '',
+          [changeHandlerName]: hookChangeHandler,
+          [blurHandlerName]: hookBlurHandler,
+        }
+      );
+
+      switch (this.resetType) {
+        case resetTypeEnum.initial: {
+          HookWidget = React.cloneElement(
+            Widget,
+            {
+              ...Widget.props,
+              key: `${id}-${this.uncontrolledIndex}`,
+              formaskfield: id,
+              defaultValue: this.props.defaultValues[id] || '',
+              [changeHandlerName]: hookChangeHandler,
+              [blurHandlerName]: hookBlurHandler,
+            }
+          );
+          break;
+        }
+        case resetTypeEnum.clean: {
+          HookWidget = React.cloneElement(
+            Widget,
+            {
+              ...Widget.props,
+              key: `${id}-${this.uncontrolledIndex}`,
+              formaskfield: id,
+              defaultValue: getEmptyValueFromType(this.state.types[id]) || '',
+              [changeHandlerName]: hookChangeHandler,
+              [blurHandlerName]: hookBlurHandler,
+            }
+          );
+          break;
+        }
+
+        default:
+          break;
+      }
+
+      return HookWidget;
+    }
 
     return React.cloneElement(
       Widget,
@@ -239,8 +305,8 @@ export default class Formask extends React.Component<FormaskAPI, InternalState> 
         ...Widget.props,
         formaskfield: id,
         value: Widget.props.value || '',
-        [options.changeHandlerName]: hookChangeHandler,
-        [options.blurHandlerName]: hookBlurHandler,
+        [changeHandlerName]: hookChangeHandler,
+        [blurHandlerName]: hookBlurHandler,
       }
     );
   }
@@ -363,14 +429,14 @@ export default class Formask extends React.Component<FormaskAPI, InternalState> 
     options: { type?: string, fields?: Array<string> } = {}
   ) => {
     const { type = 'clean', fields } = options;
+
+    this.uncontrolledIndex++;
     
     switch (type) {
       case 'clean': {
+        this.resetType = resetTypeEnum.clean;
+
         if (fields) {
-          const {
-
-          } = this.state;
-
           this.setState((prevState) => {
             const { 
               types, values: newValues, touches: newTouches, errors: newErrors,
@@ -402,6 +468,7 @@ export default class Formask extends React.Component<FormaskAPI, InternalState> 
       }
       case 'initial': {
         const { defaultValues = {}, defaultErrors = {}, defaultTouches = {} } = this.props;
+        this.resetType = resetTypeEnum.initial;
         if (fields) {
           this.setState((prevState) => {
             const {

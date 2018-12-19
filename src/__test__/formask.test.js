@@ -14,9 +14,9 @@ afterEach(cleanup);
  * 4. test errors and isValid of each field.
  * 5. test about defaultValues, defaultTouches and defaultErrors.
  * 6. onBlur a field will trigger field validation.
- * @todo
  * 7. If schema is updated, formask will update schema accordingly and do fields validation
- * 
+ * @todo
+ * 8. 
  */ 
 
 test(`
@@ -69,7 +69,7 @@ test(`
 
 });
 
-test(`
+test(`z
   When user onFocus and onBlur input field, touches will be set.
 `, () => {
   const formask = (
@@ -337,9 +337,10 @@ test(`
 
   expect(getByText('Userid exists', {exact: false})).not.toBeNull();
 
-  fireEvent.change(document.getElementById('first'), {target: {value: 'jasoncold'}});
+  fireEvent.change(document.getElementById('first'), {target: {value: 'nothinglikeme'}});
   fireEvent.click(getByText('validate'));
-  await waitForElement();
+
+  await waitForElement(() => getByText('valid'));
 
   expect(getByText('valid')).not.toBeNull();
 });
@@ -527,8 +528,7 @@ test(`
   }
 
   const {
-    getByText, rerender, getByTestId,
-    container
+    getByText, getByTestId,
   } = render(<Form/>);
 
   fireEvent.focus(document.getElementById('first'));
@@ -543,9 +543,5 @@ test(`
 
   await wait();
 
-  expect(getByTestId('first-error').innerHTML).toContain('');  
-
-  // getByTestId('xxx')
-
-  // console.log('container', container)
+  expect(getByTestId('first-error').innerHTML).toContain('');
 });
