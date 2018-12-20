@@ -4,4 +4,4 @@ export const resetTypeEnum = {
   initial: 'INITIAL',
   clean: 'CLEAN',
   noreset: '',
-}
+};

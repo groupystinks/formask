@@ -1,7 +1,6 @@
 import * as React from 'react';
 // import Button from '../components/common/Button';
 import Input from '../components/custom/Input';
-import Section from '../components/common/Section';
 import i18n from '../i18n/i18n';
 import Formask from 'formask';
 

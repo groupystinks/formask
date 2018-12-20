@@ -6,7 +6,7 @@ import { ErrorMessages } from '../formask';
  */
 export function getErrorProxy(errors: ErrorMessages) {
   const errorProxyHandler = {
-    get: function(obj: ErrorMessages, field: string){
+    get: function(obj: ErrorMessages, field: string) {
       return typeof obj[field] === 'undefined' ? {} : obj[field];
     },
     set: function(obj: ErrorMessages, field: string, value: {}) {

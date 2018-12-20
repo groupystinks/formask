@@ -69,9 +69,7 @@ class DynamicSchema extends React.Component {
           render={(formaskProps) => {
             const {
               values, isSubmitting, hook,
-              reset, touches,
-              submitHandler,
-              errors,
+              touches, submitHandler, errors,
             } = formaskProps;
             return (
             <form onSubmit={submitHandler}>
@@ -112,7 +110,7 @@ class DynamicSchema extends React.Component {
                       const match = pattern.exec(val)
                       const args = match[1].split(',').map(arg => arg.replace(/s/, ''))
                       const body = match[2]
-                      const func = new Function(...args, body)
+                      const func = new Function(...args, body) // eslint-disable-line
                       return func
                     }
                     return val

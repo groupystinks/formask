@@ -37,7 +37,7 @@ export default class Tabs extends Component {
     // show all tabs, not to destroy instance while switching
     if (hideInavtive) {
       return tabPanes.map((pane, index) => {
-        if (index + 1 == activeIndex) {
+        if (index + 1 === activeIndex) {
           return (
             <div>
               {pane}
@@ -74,7 +74,7 @@ export default class Tabs extends Component {
   }
 
   render() {
-    const { children, style, className, type, classNameForNav } = this.props;
+    const { children, style, className, classNameForNav } = this.props;
     const { activeIndex } = this.state;
     const tabPanes = React.Children.toArray(children);
 

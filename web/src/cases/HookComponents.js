@@ -13,9 +13,7 @@ export default class DynamicSchema extends React.Component {
           render={(formaskProps) => {
             const {
               values, isSubmitting, hook,
-              reset, touches,
-              submitHandler,
-              errors,
+              touches, submitHandler, errors,
             } = formaskProps;
             return (
               <form onSubmit={submitHandler}>
