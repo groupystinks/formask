@@ -6,4 +6,5 @@ export default {
   'dynamic.schema': 'Dynamic Schema',
   'hook.components': 'Hook Components',
   'user.not.avaialable': 'Username is not available',
+  'async': 'Async',
 }

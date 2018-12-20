@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Button from '../components/common/Button';
-import Section from '../components/common/Section';
 import i18n from '../i18n/i18n';
 import InputSelect from '../components/custom/InputSelect';
 import UncontrolledInput from '../components/custom/UncontrolledInput';
@@ -9,7 +8,7 @@ import Formask from 'formask';
 export default class DynamicSchema extends React.Component {
   render() {
     return (
-      <Section title='Hook Components'>
+      <React.Fragment>
         <Formask
           render={(formaskProps) => {
             const {
@@ -51,7 +50,7 @@ export default class DynamicSchema extends React.Component {
             );
           }}
         />
-      </Section>
+      </React.Fragment>
     )
   }
 }

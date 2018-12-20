@@ -13,7 +13,6 @@ const schema = {
       isUserAvailable(value) {
         return new Promise((resolve) => {
           setTimeout(() => {
-            console.log(value)
             if (value.length > 3) {
               resolve(true);
             } else {
@@ -38,7 +37,7 @@ const schema = {
 export default class Async extends React.Component {
   render() {
     return (
-      <Section title='Async'>
+      <React.Fragment>
         <Formask
           schema={schema.validator}
           errorMessages={schema.messages}
@@ -67,7 +66,7 @@ export default class Async extends React.Component {
             );
           }}
         />
-      </Section>
+      </React.Fragment>
     )
   }
 }

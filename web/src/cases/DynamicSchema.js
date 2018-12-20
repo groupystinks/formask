@@ -4,7 +4,6 @@ import Input from '../components/custom/Input';
 import Button from '../components/common/Button';
 import i18n from '../i18n/i18n';
 import beautify from 'js-beautify'
-import Section from '../components/common/Section';
 
 function getSchema() {
   return {
@@ -62,7 +61,7 @@ class DynamicSchema extends React.Component {
   render() {
     const { schema, messages } = this.state;
     return (
-      <Section title={i18n['dynamic.schema']}>
+      <React.Fragment>
         <Formask
           onSubmit={this.onSubmit}
           schema={schema}
@@ -136,7 +135,7 @@ class DynamicSchema extends React.Component {
             ))
           }
         />
-      </Section>
+      </React.Fragment>
     );
   }
 }
