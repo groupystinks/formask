@@ -147,7 +147,11 @@ module.exports = {
               name: 'static/media/[name].[hash:8].[ext]',
             },
           },
-          // Compile .tsx?
+          {
+            test: /\.jsx?$/,
+            exclude: /node_modules/,
+            loader: 'babel-loader',
+          },
           {
             test: /\.tsx?$/,
             include: paths.appSrc,
