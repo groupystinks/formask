@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './style/App.css';
+import './style/app.css';
 import Section from './components/common/Section';
 import i18n from './i18n/i18n';
 import DemoCode from './components/common/Demo';
