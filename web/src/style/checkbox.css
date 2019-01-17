@@ -1,0 +1,39 @@
+.formask-checkbox .checkbox {
+    position: relative;
+    padding-left: 20px;
+    margin-right: 50px;
+}
+.formask-checkbox .checkbox {
+    padding-left: 25px;
+}
+
+.formask-checkbox .checkbox:after {
+  cursor: pointer;
+  content: '';
+  background-color: #FFF;
+  border: 1px #ccc solid;
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: 0.2s linear;
+}
+.formask-checkbox .checkbox:after {
+  content: 'v';
+  width: 20px;
+  height: 20px;
+  font-size: 11px;
+  text-align: center;
+  text-indent: 0px;
+  line-height: 21px;
+  color: transparent;
+  border-radius: 3px;
+  margin-right: 3px;
+}
+
+input[type="checkbox"]:checked + .checkbox:after {
+  border: 1px #01b1f0 solid;
+  background-color: #01b1f0;
+  color: #fff;
+}

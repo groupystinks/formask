@@ -304,7 +304,7 @@ export default class Formask extends React.Component<FormaskAPI, InternalState> 
       {
         ...Widget.props,
         formaskfield: id,
-        value: Widget.props.value || '',
+        value: Widget.props.value,
         [changeHandlerName]: hookChangeHandler,
         [blurHandlerName]: hookBlurHandler,
       }

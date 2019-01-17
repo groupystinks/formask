@@ -1,6 +1,5 @@
 import * as React from 'react';
-// import Button from '../components/common/Button';
-import Input from '../components/custom/Input';
+import Input from '../components/input/Input';
 import i18n from '../i18n/i18n';
 import Formask from 'formask';
 
@@ -32,7 +31,6 @@ const schema = {
 
 
 // We gonna have input select that will search github user while user typing.
-// 
 export default class Async extends React.Component {
   render() {
     return (

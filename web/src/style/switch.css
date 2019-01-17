@@ -1,0 +1,32 @@
+.formask-switch .switcher {
+  position: relative;
+  background-color: #ccc;
+  width: 40px;
+  height: 22px;
+  display: block;
+  transition: 0.2s;
+  border-radius: 11px;
+}
+
+.formask-switch .switcher:after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  background-color: #FFF;
+  transition: 0.2s;
+  border-radius: 50%;
+}
+
+.formask-switch.checked .switcher {
+  background-color: #01b1f0;
+}
+
+.formask-switch.checked .switcher:after {
+  margin-left: 18px;
+  background-color: #FFF;
+  border: 0;
+}

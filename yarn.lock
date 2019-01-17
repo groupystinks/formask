@@ -3598,9 +3598,10 @@ kleur@^2.0.1:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-2.0.2.tgz#b704f4944d95e255d038f0cb05fb8a602c55a300"
 
-kya@0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/kya/-/kya-0.1.2.tgz#5f23719b9689841215b8e6857b5988a7987b1bbb"
+kya@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/kya/-/kya-0.2.0.tgz#f38d71722899813fd74bc485febb33d58dabee19"
+  integrity sha512-b0P7rQ/UPJpWlt4vAmYzvGHOrxMbQacnJe1qblaLeVXLdpkW33hs0i/FEDpbQ+jhhNUmKWRDpurfW9DHtbEjaA==
   dependencies:
     "@types/invariant" "2.2.29"
     invariant "2.2.2"

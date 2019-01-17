@@ -12,7 +12,7 @@ const TabPane = ({ children, style, className, onClick }) => (
 );
 
 TabPane.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   /** index of the Tab, used to identify which tab is selected */
   index: PropTypes.string.isRequired,
   /** title of the Tab, string or any rendered element */

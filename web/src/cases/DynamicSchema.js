@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Formask from 'formask';
-import Input from '../components/custom/Input';
+import Input from '../components/input/Input';
 import Button from '../components/common/Button';
 import i18n from '../i18n/i18n';
 import beautify from 'js-beautify'
@@ -10,7 +10,7 @@ function getSchema() {
     validator: {
       name: {
         required: true,
-        type: 'string'
+        type: 'string',
       },
     },
     messages: {
@@ -28,22 +28,6 @@ class DynamicSchema extends React.Component {
     this.state = {
       schema: getSchema().validator,
       messages: getSchema().messages,
-    }
-  }
-
-  getSchema = () => {
-    return {
-      validator: {
-        name: {
-          required: true,
-          type: 'string'
-        },
-      },
-      messages: {
-        favor: {
-          required: 'select field is required',
-        },
-      }
     }
   }
 

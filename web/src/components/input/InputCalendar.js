@@ -40,7 +40,6 @@ class Picker extends React.Component {
     const props = this.props;
     const calendar = (<Calendar
       locale={enUS}
-      defaultValue={now}
       timePicker={props.showTime ? timePickerElement : null}
       disabledDate={props.disabledDate}
     />);
@@ -86,53 +85,29 @@ export default class InputCalendar extends React.Component {
 
     onChange({
       ...value,
-      [field]: newvalue,
+      [field]: newvalue.toDate(),
     })
-  }
-
-  disabledEndDate = (endValue) => {
-    if (!endValue) {
-      return false;
-    }
-    const startValue = this.state.startValue;
-    if (!startValue) {
-      return false;
-    }
-    return SHOW_TIME ? endValue.isBefore(startValue) :
-    endValue.diff(startValue, 'days') <= 0;
-  }
-
-  disabledStartDate = (startValue) => {
-    if (!startValue) {
-      return false;
-    }
-    const endValue = this.state.endValue;
-    if (!endValue) {
-      return false;
-    }
-    return SHOW_TIME ? endValue.isBefore(startValue) :
-    endValue.diff(startValue, 'days') <= 0;
   }
 
   render() {
     const {
-      value: {startValue, endValue} = {}, formaskfield
+      value: {startValue, endValue} = {}, formaskfield, error
     } = this.props;
+
     return [
       <div key='start' className='field-item field'>
         <label htmlFor={formaskfield}>Start Time:</label>
         <Picker
-          disabledDate={this.disabledStartDate}
-          value={startValue}
+          value={moment(startValue && startValue.valueOf())}
           onChange={this.onChange.bind(this, 'startValue')}
         />
+        <small className='invalid'>{ error.message }</small>
       </div>,
 
       <div key='end' className='field-item field'>
         <label htmlFor={formaskfield}>End Time:</label>
         <Picker
-          disabledDate={this.disabledEndDate}
-          value={endValue}
+          value={moment(endValue && endValue.valueOf())}
           onChange={this.onChange.bind(this, 'endValue')}
         />
       </div>

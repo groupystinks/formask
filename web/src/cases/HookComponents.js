@@ -1,11 +1,11 @@
 import * as React from 'react';
 import Button from '../components/common/Button';
 import i18n from '../i18n/i18n';
-import InputSelect from '../components/custom/InputSelect';
-import UncontrolledInput from '../components/custom/UncontrolledInput';
+import InputSelect from '../components/input/InputSelect';
+import UncontrolledInput from '../components/input/UncontrolledInput';
 import Formask from 'formask';
 
-export default class DynamicSchema extends React.Component {
+export default class HookComponents extends React.Component {
   render() {
     return (
       <React.Fragment>

@@ -7,6 +7,9 @@ Formask is minimal form management abstract implemented by React. Provided with 
 npm i formask --save
 ```
 
+## Example
+http://groupystinks.com/formask/
+
 ## API
 
 ### Props
@@ -34,11 +37,19 @@ and internal state are passed in.
 form [FormValues](#values:%20{%20[field:%20string]:%20any%20}) and [FormaskProps](#Formaskprops).
 
 #### schema?: { [field: string]: { type: string; required?: boolean; [customrule: string]: (value) => Promise<boolean> | boolean } }
-`schema` defines validation rule of each form field. it should manifest itself in [Example](#Example) section.
-`type` should be either 'array', 'boolean', 'number', 'object' or 'string'.
+`schema` defines validation rule of each form field. There's some examples in [Example](#Example).
+Support Javascript native types including:
+- String
+- Number
+- Date
+- Boolean
+- Array
+- Array<type> validation
+- Nested object validation
+
 `required` specify neccassary field. Formask will bypass field from validation if required is false.
-`customrule` is used as customized validation function. return `true` means check pass, return `false`
-means check failed.
+
+`customrule` is used as customized validation function. return `true` means check pass, return `false` means check failed.
 
 #### errorMessages?: { [field: string]: any }
 `errorMessages` defines corresponding error message to schema. If error occur, message will be exposed in `props.errors` (see [FormaskProps](#Formaskprops)). It could be string, react element and whatever you may want when error occurs.

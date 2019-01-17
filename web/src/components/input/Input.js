@@ -3,7 +3,13 @@ import * as React from 'react';
 export default class Input extends React.Component {
 
   onChangeHandler = (e) => {
-    this.props.onChange && this.props.onChange(e.target.value)
+    let value = e.target.value
+
+    if (this.props.type === 'number') {
+      value = Number(e.target.value);
+    }
+
+    this.props.onChange && this.props.onChange(value)
   }
 
   onBlurHandler = (e) => {
@@ -12,7 +18,7 @@ export default class Input extends React.Component {
 
   render() {
     const {
-      value, error,
+      value, error, type,
       formaskfield, label
     } = this.props;
     return (
@@ -20,7 +26,7 @@ export default class Input extends React.Component {
         <label htmlFor={formaskfield}>{label}</label>
         <input
           id={formaskfield}
-          type='text'
+          type={type}
           value={value}
           onChange={this.onChangeHandler}
           onBlur={this.onBlurHandler}
@@ -29,4 +35,8 @@ export default class Input extends React.Component {
       </div>
     )
   }
+}
+
+Input.defaultProps = {
+  type: 'text'
 }
