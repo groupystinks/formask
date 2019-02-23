@@ -12,6 +12,8 @@ function getSchema() {
       name: {
         required: true,
         type: 'string',
+        // Unconditional false, edit schema change to see dynamic schema.
+        foo() {return false}
       },
     },
     messages: {
@@ -26,36 +28,33 @@ class DynamicSchema extends React.Component {
 
   constructor() {
     super();
+    const schema = getSchema().validator;
     this.state = {
-      schema: getSchema().validator,
+      schemaRaw: JSON.stringify(
+        schema,
+        (key, val) => {
+          const replaced = `${val}`.replace(/\n/g, '');
+          return (typeof val === 'function') ? replaced : val;
+        }
+      ),
+      schema,
       messages: getSchema().messages,
-      submitMsg: '',
-      msgType: ''
-    }
-  }
-
-  onSubmit = (values, formaskProps) => {
-    setTimeout(() => {
-      formaskProps.setIsSubmitting(false);
-    }, 1000);
-    this.setState({ submitMsg: JSON.stringify(values), msgType: 'value' })
-    console.log('formaskProps: ', formaskProps);
-    if (!formaskProps.isValid) {
-      this.setState({ submitMsg: JSON.stringify(formaskProps.errors), msgType: 'error' })
     }
   }
 
   render() {
-    const { schema, messages, submitMsg, msgType } = this.state;
+    const {
+      schema, messages,
+      schemaRaw,
+    } = this.state;
     return (
       <React.Fragment>
         <Formask
-          onSubmit={this.onSubmit}
           schema={schema}
           errorMessages={messages}
           render={(formaskProps) => {
             const {
-              values, isSubmitting, hook,
+              values, hook, isValid,
               touches, submitHandler, errors,
             } = formaskProps;
             return (
@@ -79,21 +78,32 @@ class DynamicSchema extends React.Component {
 
               </div>
               <div className="flex-hori-spaced">
-                <Button style={{ flex: 1, margin: '10px' }} disabled={isSubmitting} type="submit">Submit</Button>
-                <SubmitMessage message={submitMsg} type={msgType} />
+                <SubmitMessage message={isValid ? JSON.stringify(values) : JSON.stringify(errors)} type={isValid ? 'message' : 'error'} />
               </div>
             </form>
             );
           }}
         />
         <h3>Schema Change</h3>
-        <textarea
-          style={{ width: '80vw', height: '25vh' }}
-          onChange={
-            e => {
+        <div className="flex-col-spaced">
+          <textarea
+            style={{ width: '80vw', height: '25vh' }}
+            onChange={
+              e => {
+                this.setState({ schemaRaw: e.target.value });
+
+              }
+            }
+            defaultValue={
+              beautify(schemaRaw)
+            }
+          />
+          <Button
+            type="button"
+            onClick={() => {
               try {
                 const schema = JSON.parse(
-                  e.target.value,
+                  schemaRaw,
                   (key, val) => {
                     if (/function /.test(val)) {
                       const pattern = /function\s+[\w\s]*\(([\w\s,]*)\)[\s\n\t\r\0{\\n]+(.*)[}\s\n\t\r\0]+/gm;
@@ -111,18 +121,11 @@ class DynamicSchema extends React.Component {
               } catch (error){
   
               }
-            }
-          }
-          defaultValue={
-            beautify(JSON.stringify(
-              this.state.schema,
-              (key, val) => {
-                const replaced = `${val}`.replace(/\n/g, '');
-                return (typeof val === 'function') ? replaced : val;
-              }
-            ))
-          }
-        />
+            }}
+          >
+            {i18n['change']}
+          </Button>
+        </div>
       </React.Fragment>
     );
   }

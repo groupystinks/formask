@@ -3,13 +3,34 @@ import Button from '../components/common/Button';
 import i18n from '../i18n/i18n';
 import InputSelect from '../components/input/InputSelect';
 import UncontrolledInput from '../components/input/UncontrolledInput';
+import SubmitMessage from '../components/common/SubmitMessage';
 import Formask from 'formask';
 
 export default class HookComponents extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      submitMsg: '',
+      msgType: ''
+    }
+  }
+
+  onSubmit = (values, formaskProps) => {
+    setTimeout(() => {
+      formaskProps.setIsSubmitting(false);
+    }, 1000);
+    this.setState({ submitMsg: JSON.stringify(values), msgType: 'value' })
+    console.log('formaskProps: ', formaskProps);
+    if (!formaskProps.isValid) {
+      this.setState({ submitMsg: JSON.stringify(formaskProps.errors), msgType: 'error' })
+    }
+  }
   render() {
+    const { msgType, submitMsg } = this.state;
     return (
       <React.Fragment>
         <Formask
+          onSubmit={this.onSubmit}
           render={(formaskProps) => {
             const {
               values, isSubmitting, hook,
@@ -43,7 +64,10 @@ export default class HookComponents extends React.Component {
                   }
                   </div>
                 </div>
-                <Button disabled={isSubmitting} type="submit">Submit</Button>
+                <div className="flex-hori-spaced">
+                  <Button style={{ flex: 1, margin: '10px' }} disabled={isSubmitting} type="submit">{i18n['submit']}</Button>
+                  <SubmitMessage message={submitMsg} type={msgType} />
+                </div>
               </form>
             );
           }}

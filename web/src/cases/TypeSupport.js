@@ -164,7 +164,7 @@ export default class TypeSupport extends React.Component {
                   </div>
                 </div>
                 <div className="flex-hori-spaced">
-                  <Button style={{ flex: 1, margin: '10px' }} disabled={isSubmitting} type="submit">Submit</Button>
+                  <Button style={{ flex: 1, margin: '10px' }} disabled={isSubmitting} type="submit">{i18n['submit']}</Button>
                   <SubmitMessage message={submitMsg} type={msgType} />
                 </div>
               </form>
