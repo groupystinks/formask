@@ -69,7 +69,7 @@ test(`
 
 });
 
-test(`z
+test(`
   When user onFocus and onBlur input field, touches will be set.
 `, () => {
   const formask = (
@@ -347,20 +347,12 @@ test(`
 
 test(`
   defaultValues, defaultTouches and defaultErrors.
-`, () => {
+`, async () => {
   const defaultValues = {
     first: 'hello',
     second: 'world',
   };
-  const defaultErrors = {
-    first: {
-      valid: true
-    },
-    second: {
-      valid: false,
-      error: 'second is initially wrong',
-    }
-  };
+  const defaultErrors = {};
   const defaultTouches = {
     first: false,
     second: true,
@@ -404,6 +396,8 @@ test(`
   );
 
   const { getByTestId } = render(formask);
+
+  await wait();
 
   const values = JSON.parse((getByTestId('values').innerHTML))
   const errors = JSON.parse((getByTestId('errors').innerHTML))
@@ -545,3 +539,55 @@ test(`
 
   expect(getByTestId('first-error').innerHTML).toContain('');
 });
+
+test(`
+  If defaultValues is specified, validator will do the first round check on default values.
+`, async () => {
+  const getSchema =  () => {
+    return {
+      validator: {
+        errordefault: {
+          type: String
+        },
+      },
+      messages: {
+        errordefault: {
+          type: 'type should be String',
+        },
+      }
+    }
+  }
+  const formask = (
+    <Formask
+      schema={getSchema().validator}
+      errorMessages={getSchema().messages}
+      defaultValues={{ errordefault: 123 }}
+      render={formaskProps => {
+        const {
+          submitHandler, values, errors,
+          hook,
+        } = formaskProps;
+        return (
+          <form onSubmit={submitHandler}>
+            <h3>First</h3>
+            {
+              hook('errordefault')(
+                <Input
+                  id='errordefault'
+                  value={values.errordefault}
+                />
+              )
+            }
+            <small data-testid='errordefault-error'>{JSON.stringify(errors)}</small>
+          </form>
+        );
+      }}
+    />
+  );
+
+  const { getByTestId } = render(formask);
+
+  await wait();
+
+  expect(getByTestId('errordefault-error').innerHTML).toContain('type should be String');
+})

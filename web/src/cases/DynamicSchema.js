@@ -4,6 +4,7 @@ import Input from '../components/input/Input';
 import Button from '../components/common/Button';
 import i18n from '../i18n/i18n';
 import beautify from 'js-beautify'
+import SubmitMessage from '../components/common/SubmitMessage';
 
 function getSchema() {
   return {
@@ -28,22 +29,24 @@ class DynamicSchema extends React.Component {
     this.state = {
       schema: getSchema().validator,
       messages: getSchema().messages,
+      submitMsg: '',
+      msgType: ''
     }
   }
 
   onSubmit = (values, formaskProps) => {
-    console.log('Submitted value: ', values);
-    console.log('formaskProps: ', formaskProps);
-    if (!formaskProps.isValid) {
-      console.error(formaskProps.errors);
-    }
     setTimeout(() => {
       formaskProps.setIsSubmitting(false);
     }, 1000);
+    this.setState({ submitMsg: JSON.stringify(values), msgType: 'value' })
+    console.log('formaskProps: ', formaskProps);
+    if (!formaskProps.isValid) {
+      this.setState({ submitMsg: JSON.stringify(formaskProps.errors), msgType: 'error' })
+    }
   }
 
   render() {
-    const { schema, messages } = this.state;
+    const { schema, messages, submitMsg, msgType } = this.state;
     return (
       <React.Fragment>
         <Formask
@@ -75,7 +78,10 @@ class DynamicSchema extends React.Component {
                 </div>
 
               </div>
-              <Button disabled={isSubmitting} type="submit">Submit</Button>
+              <div className="flex-hori-spaced">
+                <Button style={{ flex: 1, margin: '10px' }} disabled={isSubmitting} type="submit">Submit</Button>
+                <SubmitMessage message={submitMsg} type={msgType} />
+              </div>
             </form>
             );
           }}

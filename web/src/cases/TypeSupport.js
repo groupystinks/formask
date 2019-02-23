@@ -6,6 +6,7 @@ import InputSwitch from '../components/input/InputSwitch';
 import CheckboxGroup from '../components/input/CheckboxGroup';
 import Checkbox from '../components/input/Checkbox';
 import Calendar from '../components/input/InputCalendar';
+import SubmitMessage from '../components/common/SubmitMessage';
 import Formask from 'formask';
 
 const schema = {
@@ -53,17 +54,25 @@ const schema = {
 }
 
 export default class TypeSupport extends React.Component {
-  onSubmit = (values, formaskProps) => {
-    console.log('Submitted value: ', values);
-    console.log('formaskProps: ', formaskProps);
-    if (!formaskProps.isValid) {
-      console.error(formaskProps.errors);
+  constructor(props) {
+    super(props);
+    this.state = {
+      submitMsg: '',
+      msgType: ''
     }
+  }
+  onSubmit = (values, formaskProps) => {
     setTimeout(() => {
       formaskProps.setIsSubmitting(false);
     }, 1000);
+    this.setState({ submitMsg: JSON.stringify(values), msgType: 'value' })
+    console.log('formaskProps: ', formaskProps);
+    if (!formaskProps.isValid) {
+      this.setState({ submitMsg: JSON.stringify(formaskProps.errors), msgType: 'error' })
+    }
   }
   render() {
+    const { submitMsg, msgType } = this.state;
     return (
       <React.Fragment>
         <Formask
@@ -98,7 +107,7 @@ export default class TypeSupport extends React.Component {
                     {
                       hook('age')(
                         <Input
-                          type="number"
+                          type='number'
                           touch={touches.age}
                           error={errors.age}
                           value={values.age}
@@ -154,7 +163,10 @@ export default class TypeSupport extends React.Component {
                     }
                   </div>
                 </div>
-                <Button disabled={isSubmitting} type="submit">Submit</Button>
+                <div className="flex-hori-spaced">
+                  <Button style={{ flex: 1, margin: '10px' }} disabled={isSubmitting} type="submit">Submit</Button>
+                  <SubmitMessage message={submitMsg} type={msgType} />
+                </div>
               </form>
             );
           }}

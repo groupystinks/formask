@@ -91,12 +91,12 @@ export default class InputCalendar extends React.Component {
 
   render() {
     const {
-      value: {startValue, endValue} = {}, formaskfield, error
+      value: {startValue, endValue} = {}, formaskfield, error, label
     } = this.props;
 
     return [
       <div key='start' className='field-item field'>
-        <label htmlFor={formaskfield}>Start Time:</label>
+        <label htmlFor={formaskfield}>{label} -> Start Time</label>
         <Picker
           value={moment(startValue && startValue.valueOf())}
           onChange={this.onChange.bind(this, 'startValue')}
@@ -105,7 +105,7 @@ export default class InputCalendar extends React.Component {
       </div>,
 
       <div key='end' className='field-item field'>
-        <label htmlFor={formaskfield}>End Time:</label>
+        <label htmlFor={formaskfield}>{label} -> End Time</label>
         <Picker
           value={moment(endValue && endValue.valueOf())}
           onChange={this.onChange.bind(this, 'endValue')}

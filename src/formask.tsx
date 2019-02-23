@@ -166,6 +166,14 @@ export default class Formask extends React.Component<FormaskAPI, InternalState> 
     };
   }
 
+  componentDidMount() {
+    // If defaultValues is specified, validator will do the first round check
+    // on default values.
+    const { defaultValues } = this.props;
+    const fields = Object.keys(defaultValues);
+    this.validate(fields);
+  }
+
   componentDidUpdate(prevProps: FormaskAPI) {
     if (!objectDeepEqual(prevProps.schema, this.props.schema)) {
       this.validate(undefined, { onlyTouched: true });

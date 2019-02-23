@@ -1,0 +1,7 @@
+.submit-message {
+  flex: 6;
+}
+
+.submit-message .error {
+  color: rgb(220, 43, 43);
+}

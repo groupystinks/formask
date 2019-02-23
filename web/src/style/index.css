@@ -45,6 +45,13 @@ small.invalid {
   justify-content: space-between;
 }
 
+.flex-col-spaced {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .fields-area {
   align-items: center;
   display: flex;
