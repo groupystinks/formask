@@ -87,6 +87,7 @@ export interface FormaskMethods {
   reset: (options?: { type?: 'initial' | 'clean', fields?: Array<string> }) => void;
   setIsSubmitting: (isSubmitting: boolean) => void;
   setTouches: (touches: FormTouches) => void;
+  setValues: (values: FormValues) => void;
   validate: (fields?: Array<string>, options?: ValidateOptions) => void;
 }
 
@@ -201,6 +202,7 @@ export default class Formask extends React.Component<FormaskAPI, InternalState> 
       getFieldsValue: this.getFieldsValue,
       hook: this.hook,
       setTouches: this.setTouches,
+      setValues: this.setValues,
       validate: this.validate,
     };
     return formaskProps;
@@ -428,6 +430,17 @@ export default class Formask extends React.Component<FormaskAPI, InternalState> 
         touches: {
           ...prevState.touches,
           ...newTouches
+        }
+      };
+    });
+  }
+
+  setValues = (newValues = {}) => {
+    this.setState((prevState) => {
+      return {
+        values: {
+          ...prevState.values,
+          ...newValues
         }
       };
     });
