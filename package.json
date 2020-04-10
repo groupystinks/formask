@@ -1,6 +1,6 @@
 {
   "name": "formask",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Formask is minimal form management abstract implemented by React",
   "main": "dist/index.js",
   "typings": "dist/formask.d.ts",
