@@ -8,7 +8,7 @@ npm i formask --save
 ```
 
 ## Example
-http://groupystinks.com/formask/
+https://groupystinks.github.io/formask/
 
 ## API
 
